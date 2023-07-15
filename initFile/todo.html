@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODOリスト</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1><a href="index.html">デモECサイト</a></h1>
+      <nav>
+        <a href="products.html"> ▶ 商品一覧画面</a>
+        <a href="cart.html"> ▶ カート(ローカル)</a>
+        <a href="cart-session.html"> ▶ カート(セッション)</a>
+        <a href="button.html"> ▶ ダークボタン</a>
+        <a href="text-input.html"> ▶ Text保存(ローカル)</a>
+        <a href="text-input-session.html"> ▶ Text保存(セッション)</a>
+        <a href="todo.html"> ▶ TODOリスト</a>
+        <a href="inquiry.html"> ▶ お問い合わせ</a>
+      </nav>
+    </header>
+    <main>
+      <h1>ToDoリスト</h1>
+
+      <input
+        type="text"
+        id="taskInput"
+        placeholder="タスクを入力してください"
+      />
+      <button id="addButton">追加</button>
+
+      <ul id="taskList"></ul>
+
+      <script>
+       window.addEventListener("load", function () {
+  const taskInput = document.getElementById("taskInput");
+  const addButton = document.getElementById("addButton");
+  
+  restoreTasks();
+  
+  addButton.addEventListener("click", function () {
+    const task = taskInput.value.trim();
+    
+    if (task) {
+      const listItem = createListItem(task);
+      document.getElementById("taskList").appendChild(listItem);
+      saveTask(task);
+      taskInput.value = "";
+    }
+  });
+  
+  function createListItem(task) {
+    const listItem = document.createElement("li");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.addEventListener("change", updateTask);
+    listItem.appendChild(checkbox);
+    listItem.appendChild(document.createTextNode(task));
+    
+    const modifyButton = createButton("修正", modifyTask);
+    const deleteButton = createButton("削除", deleteTask);
+    
+    listItem.appendChild(modifyButton);
+    listItem.appendChild(document.createTextNode(" "));
+    listItem.appendChild(deleteButton);
+    
+    return listItem;
+  }
+  
+  function createButton(text, clickHandler) {
+    const button = document.createElement("button");
+    button.textContent = text;
+    button.addEventListener("click", clickHandler);
+    return button;
+  }
+  
+  function updateTask(event) {
+    const listItem = event.target.parentNode;
+    const task = listItem.childNodes[1].textContent;
+    listItem.style.textDecoration = event.target.checked ? "line-through" : "none";
+    saveTask(task);
+  }
+
+
+  // 修正ボタンを押した時に指定したタスクを修正しjsonを更新する
+
+  function modifyTask(event) {
+  const listItem = event.target.parentNode;
+  const task = listItem.childNodes[1].textContent;
+  const newTask = prompt("修正内容を入力してください", task);
+
+  if (newTask) {
+    listItem.childNodes[1].textContent = newTask;
+    updateTaskInLocalStorage(task, newTask);
+  }
+}
+
+function updateTaskInLocalStorage(oldTask, newTask) {
+  const tasks = getTasks();
+  const index = tasks.indexOf(oldTask);
+
+  if (index > -1) {
+    tasks[index] = newTask;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+}
+
+
+  
+  function deleteTask(event) {
+    const listItem = event.target.parentNode;
+    const task = listItem.childNodes[1].textContent;
+    listItem.parentNode.removeChild(listItem);
+    removeTask(task);
+  }
+  
+  function saveTask(task) {
+    const tasks = getTasks();
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+  
+  function restoreTasks() {
+    const tasks = getTasks();
+    const taskList = document.getElementById("taskList");
+    
+    tasks.forEach(function (task) {
+      const listItem = createListItem(task);
+      taskList.appendChild(listItem);
+    });
+  }
+  
+  function getTasks() {
+    const tasks = localStorage.getItem("tasks");
+    return tasks ? JSON.parse(tasks) : [];
+  }
+  
+  function removeTask(task) {
+    const tasks = getTasks();
+    const index = tasks.indexOf(task);
+    
+    if (index > -1) {
+      tasks.splice(index, 1);
+    }
+    
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+});
+      </script>
+    </main>
+  </body>
+</html>

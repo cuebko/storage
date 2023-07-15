@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Text保存</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1><a href="index.html">デモECサイト</a></h1>
+      <nav>
+        <a href="products.html"> ▶ 商品一覧画面</a>
+        <a href="cart.html"> ▶ カート(ローカル)</a>
+        <a href="cart-session.html"> ▶ カート(セッション)</a>
+        <a href="button.html"> ▶ ダークボタン</a>
+        <a href="text-input.html"> ▶ Text保存(ローカル)</a>
+        <a href="text-input-session.html"> ▶ Text保存(セッション)</a>
+        <a href="todo.html"> ▶ TODOリスト</a>
+        <a href="inquiry.html"> ▶ お問い合わせ</a>
+      </nav>
+    </header>
+    <main>
+      <h2>Text保存(ローカル)</h2>
+      <p>Text収集したいページのURLを記入してください。</p>
+      <input type="text" id="urlInput" placeholder="URLを入力してください" />
+      <button onclick="saveText()">保存</button>
+      <div class="box26">
+        <span class="box-title">POINT</span>
+        <p>
+          ※一度に大量のデータ（数MB）をlocalStorageに保存しようとしてみてください。ブラウザのストレージ制限に達したとき、どのようなエラーが発生するかを観察してください。
+        </p>
+      </div>
+    </main>
+    <script>
+      function saveText() {
+        var url = document.getElementById("urlInput").value;
+        fetch(url)
+          .then((response) => response.text())
+          .then((text) => {
+            localStorage.setItem("savedText", text);
+            console.log("テキストが保存されました。");
+          })
+          .catch((error) => {
+            console.error("エラーが発生しました:", error);
+          });
+      }
+    </script>
+  </body>
+</html>

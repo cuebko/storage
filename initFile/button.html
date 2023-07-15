@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ダークモード・ライトモードの切り替え</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="index.html">デモECサイト</a></h1>
+      <nav>
+        <a href="products.html"> ▶ 商品一覧画面</a>
+        <a href="cart.html"> ▶ カート(ローカル)</a>
+        <a href="cart-session.html"> ▶ カート(セッション)</a>
+        <a href="button.html"> ▶ ダークボタン</a>
+        <a href="text-input.html"> ▶ Text保存(ローカル)</a>
+        <a href="text-input-session.html"> ▶ Text保存(セッション)</a>
+        <a href="todo.html"> ▶ TODOリスト</a>
+        <a href="inquiry.html"> ▶ お問い合わせ</a>
+      </nav>
+    </header>
+    <main>
+      <h2>ダークボタン</h2>
+      <!--テキストボックス-->
+      <div class="box26">
+        <span class="box-title">POINT</span>
+        <p>
+          ウェブサイトの背景色（ダークモードとライトモード）を切り替えるボタンを作成し、ユーザーの選択をlocalStorageに保存します。一度ブラウザを閉じて再度ページを開いた時に、その設定が維持されることを確認してください。
+        </p>
+      </div>
+      <button id="modeButton">モード切り替え</button>
+    </main>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // ページ読み込み時に保存されたモードを読み込む
+        const savedMode = localStorage.getItem("mode");
+        if (savedMode === "dark") {
+          enableDarkMode();
+        } else {
+          enableLightMode();
+        }
+
+        // ボタンのクリックイベントを追加
+        const modeButton = document.getElementById("modeButton");
+        modeButton.addEventListener("click", function () {
+          const currentMode = localStorage.getItem("mode");
+          if (currentMode === "dark") {
+            enableLightMode();
+          } else {
+            enableDarkMode();
+          }
+        });
+      });
+
+      function enableDarkMode() {
+        // ダークモードのスタイルを適用
+        //headerもダークモードにする
+        document.getElementsByTagName("header")[0].style.backgroundColor =
+          "#333";
+        document.getElementsByTagName("header")[0].style.color = "#fff";
+
+        document.body.style.backgroundColor = "#333";
+        document.body.style.color = "#fff"; // 文字色を白に設定
+
+        // リンクテキストの色を変更
+        const links = document.getElementsByTagName("a");
+        for (let i = 0; i < links.length; i++) {
+          links[i].style.color = "#fff";
+        }
+
+        // モードをlocalStorageに保存
+        localStorage.setItem("mode", "dark");
+      }
+
+      function enableLightMode() {
+        // ライトモードのスタイルを適用
+        //headerは#f8f8f8の背景色にする
+
+        document.getElementsByTagName("header")[0].style.backgroundColor =
+          "#f8f8f8";
+        document.getElementsByTagName("header")[0].style.color = "#333";
+
+        document.body.style.backgroundColor = "#fff";
+        document.body.style.color = "#333"; // 文字色を黒に設定
+
+        // リンクテキストの色を変更
+        const links = document.getElementsByTagName("a");
+        for (let i = 0; i < links.length; i++) {
+          links[i].style.color = "#333";
+        }
+
+        // モードをlocalStorageに保存
+        localStorage.setItem("mode", "light");
+      }
+    </script>
+  </body>
+</html>

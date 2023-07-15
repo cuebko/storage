@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>課題1</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1><a href="index.html">デモECサイト</a></h1>
+      <nav>
+        <a href="products.html"> ▶ 商品一覧画面</a>
+        <a href="cart.html"> ▶ カート(ローカル)</a>
+        <a href="cart-session.html"> ▶ カート(セッション)</a>
+        <a href="button.html"> ▶ ダークボタン</a>
+        <a href="text-input.html"> ▶ Text保存(ローカル)</a>
+        <a href="text-input-session.html"> ▶ Text保存(セッション)</a>
+        <a href="todo.html"> ▶ TODOリスト</a>
+        <a href="inquiry.html"> ▶ お問い合わせ</a>
+      </nav>
+    </header>
+
+    <main>
+      <h2>お問い合わせ</h2>
+      <div class="box26">
+        <span class="box-title">POINT</span>
+        <p>
+          ユーザーフォームを作成し、ユーザーが入力した値をsessionStorageに保存する機能を追加してみてください。その後、ページがリロードされたときに、フォームの値が前回の入力値に自動的に設定されるようにします。
+        </p>
+      </div>
+      <div class="Form">
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>会社名
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）株式会社クエビコ"
+            id="companyid"
+          />
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>氏名
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）田中　案山子"
+            id="nameid"
+          />
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>電話番号
+          </p>
+          <input
+            type="text"
+            class="Form-Item-Input"
+            placeholder="例）000-0000-0000"
+            id="telid"
+          />
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label">
+            <span class="Form-Item-Label-Required">必須</span>メールアドレス
+          </p>
+          <input
+            type="email"
+            class="Form-Item-Input"
+            placeholder="例）sample@gmail.com"
+            id="mailid"
+          />
+        </div>
+        <div class="Form-Item">
+          <p class="Form-Item-Label isMsg">
+            <span class="Form-Item-Label-Required">必須</span>お問い合わせ内容
+          </p>
+          <textarea class="Form-Item-Textarea" id="messageid"></textarea>
+        </div>
+        <input type="submit" class="Form-Btn" value="送信する" />
+      </div>
+    </main>
+    <script>
+      //idの値をsessionStorageに保存する機能を追加。
+      //ページのがリロードされても、入力した値が消えないようにする。
+      //sessionStorageに保存する値は、idの値とする。
+
+      //会社名
+      const companyid = document.getElementById("companyid");
+      companyid.addEventListener("change", function () {
+        sessionStorage.setItem("companyid", companyid.value);
+      });
+
+      //氏名
+      const nameid = document.getElementById("nameid");
+      nameid.addEventListener("change", function () {
+        sessionStorage.setItem("nameid", nameid.value);
+      });
+
+      //電話番号
+      const telid = document.getElementById("telid");
+      telid.addEventListener("change", function () {
+        sessionStorage.setItem("telid", telid.value);
+      });
+
+      //メールアドレス
+      const mailid = document.getElementById("mailid");
+      mailid.addEventListener("change", function () {
+        sessionStorage.setItem("mailid", mailid.value);
+      });
+
+      //お問い合わせ内容
+      const messageid = document.getElementById("messageid");
+      messageid.addEventListener("change", function () {
+        sessionStorage.setItem("messageid", messageid.value);
+      });
+
+      //ページがリロードされたら、sessionStorageに保存された値を削除する。
+      //window.addEventListener('load', function() {
+      //  sessionStorage.removeItem('companyid');
+      //  sessionStorage.removeItem('nameid');
+      //  sessionStorage.removeItem('telid');
+      // sessionStorage.removeItem('mailid');
+      // sessionStorage.removeItem('messageid');
+      //});
+
+      //ページがリロードされた時に、sessionStorageに保存された値が消えないように設定する。
+
+      //会社名
+      const companyid2 = document.getElementById("companyid");
+      companyid2.value = sessionStorage.getItem("companyid");
+
+      //氏名
+      const nameid2 = document.getElementById("nameid");
+      nameid2.value = sessionStorage.getItem("nameid");
+
+      //電話番号
+      const telid2 = document.getElementById("telid");
+      telid2.value = sessionStorage.getItem("telid");
+
+      //メールアドレス
+      const mailid2 = document.getElementById("mailid");
+      mailid2.value = sessionStorage.getItem("mailid");
+
+      //お問い合わせ内容
+      const messageid2 = document.getElementById("messageid");
+      messageid2.value = sessionStorage.getItem("messageid");
+    </script>
+  </body>
+</html>
